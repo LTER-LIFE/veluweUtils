@@ -2,10 +2,17 @@ Package: veluweUtils
 Title: Utility functions for the Veluwe
 Version: 0.0.0.9000
 Authors@R: 
-    person("Stefan", "Vriend", , "sv.vriend@nioo.knaw.nl", role = c("aut", "cre"),
+    person("Stefan", "Vriend", , "s.vriend@nioo.knaw.nl", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9006-5988"))
 Description: Utility functions for the Veluwe site, to be used within the LTER-LIFE infrastructure.
-License: GPL (>= 3)
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Depends:
+    R (>= 3.6.0)
+Imports: 
+    concaveman (>= 1.1.0),
+    httr (>= 1.4.7),
+    ows4R (>= 0.4),
+    sf (>= 1.0.16)
