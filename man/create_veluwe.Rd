@@ -10,7 +10,10 @@ create_veluwe(
 )
 }
 \arguments{
-\item{scope}{Character indicating the desired geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv". See Details for more info.}
+\item{scope}{Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv". See Details for more info.}
+}
+\value{
+a \link[sf]{sf} object
 }
 \description{
 This function is used to create geospatial \link[sf]{sf} objects of the Veluwe.
