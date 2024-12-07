@@ -19,11 +19,10 @@
 #' @import ows4R
 #' @import sf
 #' @importFrom dplyr filter
-#' @importFrom rlang arg_match
+#' @importFrom rlang arg_match .data
 #' @export
 
-create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter", "nphv"),
-                          save) {
+create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter", "nphv")) {
   
   scope <- rlang::arg_match(scope)
   
@@ -54,7 +53,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
     # Read geojson object of De Hoge Veluwe National Park
     cat("Reading geojson of De Hoge Veluwe National Park...")
     output <- sf::st_read(request) |> 
-      dplyr::filter(naam == "De Hoge Veluwe")
+      dplyr::filter(.data$naam == "De Hoge Veluwe")
     
   }
   
@@ -82,7 +81,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
     # Read geosjon object of the Veluwe Natura2000
     cat("Reading geojson of Natura2000...")
     output <- sf::read_sf(request) |> 
-      dplyr::filter(naamN2K == "Veluwe")
+      dplyr::filter(.data$naamN2K == "Veluwe")
     
     if(scope == "concave") {
       

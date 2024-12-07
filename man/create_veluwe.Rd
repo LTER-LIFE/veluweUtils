@@ -4,10 +4,7 @@
 \alias{create_veluwe}
 \title{Create geospatial sf objects of the Veluwe}
 \usage{
-create_veluwe(
-  scope = c("natura2000", "concave", "corop", "quarter", "nphv"),
-  save
-)
+create_veluwe(scope = c("natura2000", "concave", "corop", "quarter", "nphv"))
 }
 \arguments{
 \item{scope}{Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv". See Details for more info.}
