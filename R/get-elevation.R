@@ -12,7 +12,9 @@
 #' 
 #' @returns a spatial raster
 #' 
-#' @importFrom terra rast
+#' @import terra
+#' @importFrom purrr map_chr
+#' @importFrom stringr str_detect
 #' @export
 
 get_elevation <-  function(veluwe,

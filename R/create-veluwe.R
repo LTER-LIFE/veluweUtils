@@ -14,6 +14,11 @@
 #'
 #' @returns a \link[sf]{sf} object
 #'
+#' @import concaveman
+#' @import httr
+#' @import ows4R
+#' @import sf
+#' @importFrom dplyr filter
 #' @importFrom rlang arg_match
 #' @export
 

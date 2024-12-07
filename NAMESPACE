@@ -2,5 +2,12 @@
 
 export(create_veluwe)
 export(get_elevation)
+import(concaveman)
+import(httr)
+import(ows4R)
+import(sf)
+import(terra)
+importFrom(dplyr,filter)
+importFrom(purrr,map_chr)
 importFrom(rlang,arg_match)
-importFrom(terra,rast)
+importFrom(stringr,str_detect)
