@@ -55,9 +55,15 @@ get_elevation <-  function(veluwe,
   
   request <- httr::build_url(url)
   
-  # Read spatial raster of evelation data using the Veluwe as a bounding box
+  # Read spatial raster of evelation data using the Veluwe's bounding box
+  cat(paste0("Loading elevation (", topo, ") data..."))
   raster <- terra::rast(request)
   
-  return(raster)
+  # Create elevation raster for the Veluwe area only
+  # i.e., values outside the Veluwe are set to NA
+  cat("\nMask elevation values outside Veluwe...")
+  mask <- terra::mask(raster, veluwe)
+  
+  return(mask)
   
 }
