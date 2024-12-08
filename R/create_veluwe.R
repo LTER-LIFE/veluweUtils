@@ -2,7 +2,7 @@
 #' 
 #' @description This function is used to create geospatial \link[sf]{sf} objects of the Veluwe.  
 #' 
-#' @param scope Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv". See Details for more info.
+#' @param scope Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv", "veluwezoom". See Details for more info.
 #' 
 #' @details This function is used to create a geospatial \link[sf]{sf} object of the Veluwe. There are multiple options:
 #' 
@@ -11,6 +11,7 @@
 #' * `corop`: The Veluwe COROP region. \href{https://en.wikipedia.org/wiki/COROP}{COROP} is the \href{https://ec.europa.eu/eurostat/web/nuts}{NUTS} level-3 statistical classification of the Netherlands, which is used for statistical and demographic purposes. It comprises the natural areas as well as socio-economic areas that are considered part of the Veluwe.
 #' * `quarter`: The \href{https://en.wikipedia.org/wiki/Veluwe_Quarter}{Veluwe Quarter} was one of four quarters in the Duchy of Guelders. It comprises the Veluwe COROP region plus five municipalities that make up the Veluwezoom (from west to east: Renkum, Arnhem, Rozendaal, Rheden, Brummen).
 #' * `nphv`: De Hoge Veluwe National Park, a privately owned area that is part of the Natura2000 area. More info: \url{https://www.hogeveluwe.nl/en/}
+#' * `npvz`: Veluwezoom National Park, the oldest national park of the Netherlands and owned by Natuurmonumenten. More info: \url{https://en.wikipedia.org/wiki/Veluwezoom_National_Park}
 #'
 #' @returns a \link[sf]{sf} object
 #'
@@ -22,11 +23,12 @@
 #' @importFrom rlang arg_match .data
 #' @export
 
-create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter", "nphv")) {
+create_veluwe <- function(scope = c("natura2000", "concave", "corop", 
+                                    "quarter", "nphv", "npvz")) {
   
   scope <- rlang::arg_match(scope)
   
-  if(scope == "nphv") {
+  if(scope == "nphv" | scope == "npvz") {
     
     # Instantiate a WFSClient to the national parks dataset at PDOK
     # WFSClient: an R interface to Open Geospatial Consortium (OGC) Web Feature Service (WFS)
@@ -39,7 +41,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
     # Retrieve name of geometry object that holds Dutch national parks
     feature_name <- caps$getFeatureTypes(pretty = TRUE)$name
     
-    # Parse and build up WFS query in url
+    # Parse and build up WFS query for national parks in url
     url <- httr::parse_url("https://service.pdok.nl/rvo/nationaleparken/wfs/v2_0?request=GetCapabilities&service=WFS")
     
     url$query <- list(service = "wfs",
@@ -50,10 +52,13 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
     
     request <- httr::build_url(url)
     
-    # Read geojson object of De Hoge Veluwe National Park
-    cat("Reading geojson of De Hoge Veluwe National Park...")
-    output <- sf::st_read(request) |> 
-      dplyr::filter(.data$naam == "De Hoge Veluwe")
+    # Read geojson object of either of the national parks
+    cat("Reading geojson of", np_lookup |> 
+          dplyr::filter(.data$scope == {{scope}}) |> 
+          dplyr::pull(naam) ,"National Park...")
+    output <- sf::st_read(request) |>
+      dplyr::left_join(np_lookup, by = c("naam" = "name")) |> 
+      dplyr::filter(.data$scope == {{scope}})
     
   }
   
@@ -67,7 +72,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
     # Retrieve name of geometry object that holds Dutch Natura2000 areas
     feature_name <- caps$getFeatureTypes(pretty = TRUE)$name
     
-    # Parse and build up WFS query in url
+    # Parse and build up WFS query for Natura2000 areas in url
     url <- httr::parse_url("https://service.pdok.nl/rvo/natura2000/wfs/v1_0?request=getcapabilities&service=wfs")
     
     url$query <- list(service = "wfs",
@@ -94,6 +99,35 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop", "quarter",
       
     }
     
+  }
+  
+  if(scope == "corop" | scope == "quarter") {
+    
+    # Parse and build up WFS query for CBS statistical areas in url
+    url <- httr::parse_url("https://service.pdok.nl/cbs/gebiedsindelingen/2024/wfs/v1_0?request=GetCapabilities&service=WFS")
+    
+    url$query <- list(service = "wfs",
+                      version = "1.0.0",
+                      request = "GetFeature",
+                      outputFormat = "application/json",
+                      typeName = cbs_lookup |> 
+                        dplyr::filter(.data$scope == {{scope}}) |> 
+                        dplyr::pull(.data$feature))
+    
+    request <- httr::build_url(url)
+    
+    # Read geosjon object of the Veluwe administrative areas
+    cat("Reading geojson of administrative areas...")
+    output <- sf::st_read(request) |> 
+      dplyr::filter(.data$statnaam %in% {cbs_lookup |> dplyr::filter(.data$scope == {{scope}}) |> dplyr::pull(.data$name) |> unlist()})
+    
+    if(scope == "quarter") {
+      
+      # Combine municipalities into one `sf` object
+      output <- sf::st_union(output)
+      
+    }
+  
   }
   
   return(output)

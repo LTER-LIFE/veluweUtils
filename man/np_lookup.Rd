@@ -8,7 +8,7 @@
 A data frame with {2} rows and {2} variables:
 \describe{
 \item{scope}{Character indicating the id of the geographic scope of the Veluwe as used in \link{create_veluwe}}
-\item{naam}{Name of }
+\item{naam}{Character indicating the name of national park as used in the PDOK dataset.}
 }
 }
 \source{

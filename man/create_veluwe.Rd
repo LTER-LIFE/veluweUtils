@@ -4,10 +4,12 @@
 \alias{create_veluwe}
 \title{Create geospatial sf objects of the Veluwe}
 \usage{
-create_veluwe(scope = c("natura2000", "concave", "corop", "quarter", "nphv"))
+create_veluwe(
+  scope = c("natura2000", "concave", "corop", "quarter", "nphv", "npvz")
+)
 }
 \arguments{
-\item{scope}{Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv". See Details for more info.}
+\item{scope}{Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv", "veluwezoom". See Details for more info.}
 }
 \value{
 a \link[sf]{sf} object
@@ -23,5 +25,6 @@ This function is used to create a geospatial \link[sf]{sf} object of the Veluwe.
 \item \code{corop}: The Veluwe COROP region. \href{https://en.wikipedia.org/wiki/COROP}{COROP} is the \href{https://ec.europa.eu/eurostat/web/nuts}{NUTS} level-3 statistical classification of the Netherlands, which is used for statistical and demographic purposes. It comprises the natural areas as well as socio-economic areas that are considered part of the Veluwe.
 \item \code{quarter}: The \href{https://en.wikipedia.org/wiki/Veluwe_Quarter}{Veluwe Quarter} was one of four quarters in the Duchy of Guelders. It comprises the Veluwe COROP region plus five municipalities that make up the Veluwezoom (from west to east: Renkum, Arnhem, Rozendaal, Rheden, Brummen).
 \item \code{nphv}: De Hoge Veluwe National Park, a privately owned area that is part of the Natura2000 area. More info: \url{https://www.hogeveluwe.nl/en/}
+\item \code{npvz}: Veluwezoom National Park, the oldest national park of the Netherlands and owned by Natuurmonumenten. More info: \url{https://en.wikipedia.org/wiki/Veluwezoom_National_Park}
 }
 }
