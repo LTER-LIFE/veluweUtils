@@ -2,7 +2,7 @@
 #' 
 #' @description This function is used to create geospatial \link[sf]{sf} objects of the Veluwe.  
 #' 
-#' @param scope Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv", "veluwezoom". See Details for more info.
+#' @param scope Character indicating the preferred geospatial scope of the Veluwe. Options: "natura2000", "concave", "corop", "quarter", "nphv", "npvz". See Details for more info.
 #' 
 #' @details This function is used to create a geospatial \link[sf]{sf} object of the Veluwe. There are multiple options:
 #' 

@@ -8,11 +8,11 @@
 A data frame with {2} rows and {2} variables:
 \describe{
 \item{scope}{Character indicating the id of the geographic scope of the Veluwe as used in \link{create_veluwe}}
-\item{naam}{Character indicating the name of national park as used in the PDOK dataset.}
+\item{name}{Character indicating the name of national park as used in the PDOK dataset.}
 }
 }
 \source{
-data-raw/create-datasets.R
+data-raw/np_lookup.R
 }
 \usage{
 np_lookup
