@@ -12,6 +12,15 @@
 #' 
 #' @returns a spatial raster
 #' 
+#' @examples
+#' rlang::check_installed(c("ggplot2", "tidyterra"))
+#' 
+#' nphv <- create_veluwe(scope = "nphv")
+#' elev <- get_elevation(veluwe = nphv, topo = "dtm")
+#' 
+#' ggplot2::ggplot() +
+#'   tidyterra::geom_spatraster(data = elev)
+#' 
 #' @import terra
 #' @importFrom purrr map_chr
 #' @importFrom stringr str_detect

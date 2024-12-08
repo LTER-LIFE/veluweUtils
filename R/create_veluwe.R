@@ -15,6 +15,14 @@
 #'
 #' @returns a \link[sf]{sf} object
 #'
+#' @examples
+#' rlang::check_installed(c("ggplot2"))
+#' 
+#' nphv <- create_veluwe(scope = "nphv")
+#' 
+#' ggplot2::ggplot() +
+#'   ggplot2::geom_sf(data = nphv)
+#'
 #' @import concaveman
 #' @import httr
 #' @import ows4R
@@ -53,11 +61,11 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop",
     request <- httr::build_url(url)
     
     # Read geojson object of either of the national parks
-    cat("Reading geojson of", np_lookup |> 
+    cat("Reading geojson of", veluweUtils::np_lookup |> 
           dplyr::filter(.data$scope == {{scope}}) |> 
-          dplyr::pull(naam) ,"National Park...")
+          dplyr::pull(.data$name) ,"National Park...")
     output <- sf::st_read(request) |>
-      dplyr::left_join(np_lookup, by = c("naam" = "name")) |> 
+      dplyr::left_join(veluweUtils::np_lookup, by = c("naam" = "name")) |> 
       dplyr::filter(.data$scope == {{scope}})
     
   }
@@ -110,7 +118,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop",
                       version = "1.0.0",
                       request = "GetFeature",
                       outputFormat = "application/json",
-                      typeName = cbs_lookup |> 
+                      typeName = veluweUtils::cbs_lookup |> 
                         dplyr::filter(.data$scope == {{scope}}) |> 
                         dplyr::pull(.data$feature))
     
@@ -119,7 +127,10 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop",
     # Read geosjon object of the Veluwe administrative areas
     cat("Reading geojson of administrative areas...")
     output <- sf::st_read(request) |> 
-      dplyr::filter(.data$statnaam %in% {cbs_lookup |> dplyr::filter(.data$scope == {{scope}}) |> dplyr::pull(.data$name) |> unlist()})
+      dplyr::filter(.data$statnaam %in% {veluweUtils::cbs_lookup |> 
+          dplyr::filter(.data$scope == {{scope}}) |> 
+          dplyr::pull(.data$name) |> 
+          unlist()})
     
     if(scope == "quarter") {
       

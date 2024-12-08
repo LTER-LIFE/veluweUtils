@@ -5,19 +5,19 @@
 \alias{np_lookup}
 \title{Look-up table for names of national parks on the Veluwe}
 \format{
-A data frame with {2} rows and {2} variables:
+A data frame with 2 rows and 2 variables:
 \describe{
 \item{scope}{Character indicating the id of the geographic scope of the Veluwe as used in \link{create_veluwe}}
 \item{name}{Character indicating the name of national park as used in the PDOK dataset.}
 }
-}
-\source{
-data-raw/np_lookup.R
 }
 \usage{
 np_lookup
 }
 \description{
 Look-up table to be used in \link{create_veluwe} in case the user selected one of the two national parks on the Veluwe. Table matches the scope ids to the name of the national park in the PDOK dataset.
+}
+\seealso{
+The script to create the national park look-up table: data-raw/np_lookup.R
 }
 \keyword{datasets}

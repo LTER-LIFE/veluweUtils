@@ -28,3 +28,9 @@ This function is used to create a geospatial \link[sf]{sf} object of the Veluwe.
 \item \code{npvz}: Veluwezoom National Park, the oldest national park of the Netherlands and owned by Natuurmonumenten. More info: \url{https://en.wikipedia.org/wiki/Veluwezoom_National_Park}
 }
 }
+\examples{
+nphv <- create_veluwe("nphv")
+ggplot2::ggplot() +
+  ggplot2::geom_sf(data = nphv)
+
+}
