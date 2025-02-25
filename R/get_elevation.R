@@ -31,6 +31,8 @@ get_elevation <-  function(veluwe,
   
   topo <- rlang::arg_match(topo)
   
+  veluwe <- sf::st_as_sf(veluwe)
+  
   # Instantiate a WCSClient to the elevation dataset at PDOK
   # WCSClient: an R interface to Open Geospatial Consortium (OGC) Web Coverage Service (WCS)
   # PDOK: platform for open geospatial datasets of the Dutch government

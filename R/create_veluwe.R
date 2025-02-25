@@ -20,8 +20,12 @@
 #' 
 #' nphv <- create_veluwe(scope = "nphv")
 #' 
+#' # Display Veluwe
 #' ggplot2::ggplot() +
 #'   ggplot2::geom_sf(data = nphv)
+#'   
+#' # Save as .shp
+#' sf::write_sf(nphv, "nphv.shp")
 #'
 #' @import concaveman
 #' @import httr
@@ -98,7 +102,7 @@ create_veluwe <- function(scope = c("natura2000", "concave", "corop",
     
     if(scope == "concave") {
       
-      cat("Creating concave hull of Natura2000...")
+      cat("\nCreating concave hull of Natura2000...")
       output <- output |> 
         sf::st_combine() |> 
         sf::st_cast("POINT") |> 
